@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <sys/time.h>
 
-// compile like:  gcc -Wall -O2 -DNROWS=10000 matrix2.c -o matrix2
+// compile like:  gcc -Wall -O2 -DNROWS=10000 matrix1.c -o matrix1
 
-
+//-02 added in compiler options
+#define NROWS 100000
 #define NCOLS 100
 
 void get_walltime(double *wct) {
@@ -16,7 +18,8 @@ void get_walltime(double *wct) {
 
 int main() {
 double *table;
-double ts,te;
+int i, j;
+double ts,te, macs,x;
 
 
   table = (double *)malloc(NROWS*NCOLS*sizeof(double)); 
@@ -27,25 +30,34 @@ double ts,te;
 
   // warmup
 
-  // ...your code here...
+	for (i=0;i<NROWS;i++) {
+    	for (j=0;j<NCOLS;j++) {
+      		table[i*NCOLS + j] = 0.0;
+    	}
+  	}
 
   // get starting time (double, seconds) 
   get_walltime(&ts);
   
   // workload
 
-  // ...your code here...
+ 	for (j=0;j<NCOLS;j++) {
+ 		for (i=0;i<NROWS;i++) {
+      		x=sqrt(table[i*NCOLS + j] );
+    	}
+  	}
 
   // get ending time
   get_walltime(&te);
 
   // check results
-  
-  // ...your code here...
+  macs = (NROWS*NCOLS)/((te-ts)*1e6);
 
   // print time elapsed and/or Maccesses/sec
+  printf("Time = %f\n",te-ts);
+  printf("Maccesses/sec = %f\n",macs);
   
-  // ...your code here...  
+  
   
   free(table);
 
